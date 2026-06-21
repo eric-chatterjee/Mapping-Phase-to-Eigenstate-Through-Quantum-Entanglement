@@ -25,3 +25,5 @@ fact that $t \in [0,1)$ implies that $2^d t \in [0,2^d)$, meaning that we can re
 
 To determine the lower bound for $d$, we consider the fact that there are $2^n$ unique values of t and $2^d$ available slots for
 those values. Consequently, $2^d >= 2^n$, implying that $d >= n$. We choose $d = 6$.
+
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
