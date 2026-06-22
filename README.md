@@ -168,3 +168,87 @@ for dindexreversed in range(d):
     qc.append(cugateinvraised,[n+dindex] + list(range(n)))
 qc.h(range(n+d))
 ```
+
+Next, we apply I - 2|0...0><0...0| using the protocol laid out above:
+
+```python
+qc.x(range(n+d))
+qc.append(czgate2,range(n+d))
+qc.x(range(n+d))
+```
+
+Finally, we apply $A$:
+
+```python
+qc.h(range(n+d))
+for dindex in range(d):
+    ugateraised = ugate**(2**dindex)
+    cugateraised = ugateraised.control(1)
+    qc.append(cugateraised,[n+dindex] + list(range(n)))
+qc.append(iqft,range(n,n+d))
+numhold = tvalueexpanded
+for dindexreversed in range(d):
+    dindex = d - dindexreversed - 1
+    twoexpdindex = 2**dindex
+    numhold = numhold - twoexpdindex
+    if numhold < 0:
+        qc.x(n+dindex)
+        numhold = numhold + twoexpdindex
+```
+
+<img width="3522" height="1329" alt="GroverCycle" src="https://github.com/user-attachments/assets/4981d876-12f0-440f-b9d5-c34bc2000e7a" />
+
+$-\frac{3}{16}\ket{000000}\ket{1001} - \frac{3}{16}\ket{000010}\ket{1110} - \frac{3}{16}\ket{000100}\ket{0111} - \frac{3}{16}\ket{001001}\ket{0011} - \frac{3}{16}\ket{001010}\ket{1101} - \frac{3}{16}\ket{010001}\ket{0110} - ... - \frac{3}{16}\ket{100100}\ket{0101} - \frac{3}{16}\ket{101100}\ket{0000} - \frac{3}{16}\ket{110010}\ket{1000} - \frac{3}{16}\ket{110111}\ket{1100} - \frac{11}{16}\ket{111111}\ket{1011}$
+
+In the above diagram, Uinv represents the inverse of U. As the state coefficients show, the state corresponding to $x = 11$ has been dramatically amplified in the composite superposition. We run the oracle-diffusion cycles for the total number of $2\phi$ rotations (where $\phi = arcsin(1/\sqrt{2^n}) \sim 1/\sqrt{2^n}$) required to get the phase angle as close to $\pi/2$ as possible. This is defined by "numgrovercycles" below:
+
+```python
+numgrovercycles = round(np.pi/(4*np.arctan(1/2**(n/2))) - 1/2)
+```
+
+Since we have already completed 1 cycle above, we run another numgrovercycles-1 cycles using a for loop:
+
+```python
+for cycle in range(1,numgrovercycles):
+    
+    qc.append(czgate,range(n,n+d))
+    
+    numhold = tvalueexpanded
+    for dindexreversed in range(d):
+        dindex = d - dindexreversed - 1
+        twoexpdindex = 2**dindex
+        numhold = numhold - twoexpdindex
+        if numhold < 0:
+            qc.x(n+dindex)
+            numhold = numhold + twoexpdindex
+    qc.append(iqft.inverse(),range(n,n+d))
+    for dindexreversed in range(d):
+        dindex = d - dindexreversed - 1
+        ugateinvraised = ugateinv**(2**dindex)
+        cugateinvraised = ugateinvraised.control(1)
+        qc.append(cugateinvraised,[n+dindex] + list(range(n)))
+    qc.h(range(n+d))
+    
+    qc.x(range(n+d))
+    qc.append(czgate2,range(n+d))
+    qc.x(range(n+d))
+    
+    qc.h(range(n+d))
+    for dindex in range(d):
+        ugateraised = ugate**(2**dindex)
+        cugateraised = ugateraised.control(1)
+        qc.append(cugateraised,[n+dindex] + list(range(n)))
+    qc.append(iqft,range(n,n+d))
+    numhold = tvalueexpanded
+    for dindexreversed in range(d):
+        dindex = d - dindexreversed - 1
+        twoexpdindex = 2**dindex
+        numhold = numhold - twoexpdindex
+        if numhold < 0:
+            qc.x(n+dindex)
+            numhold = numhold + twoexpdindex
+```
+
+$0.05078125\ket{000000}\ket{1001} + 0.05078125\ket{000010}\ket{1110} + 0.05078125\ket{000100}\ket{0111} + 0.05078125\ket{001001}\ket{0011} + 0.05078125\ket{001010}\ket{1101} + 0.05078125\ket{010001}\ket{0110} + ... + 0.05078125\ket{100100}\ket{0101} + 0.05078125\ket{101100}\ket{0000} + 0.05078125\ket{110010}\ket{1000} + 0.05078125\ket{110111}\ket{1100} + 0.98046875\ket{111111}\ket{1011}$
+
+We finish by measuring the rightmost $n$ bits (in our example, 4 bits). There is a 96% probability that we will get the correct answer $\ket{1011}$, i.e., $x = 11$.
