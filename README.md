@@ -103,7 +103,7 @@ Next, we seek to use Grover's algorithm to distill this superposition down to th
 The $X$-gate series can be practically implemented for a given value of $2^d t(x)$, which we label as "tvalueexpanded" as follows. For our example, we will pick $2^d t(x) = 25$, corresponding to $x = 11$ (see "tarray" above).
 
 ```python
-tvalueexpanded = 25 # represents 2^d*t(x)
+tvalueexpanded = 25
 ```
 
 We define a recursive parameter "numhold" which we initialize at the value of tvalueexpanded. We start by subtracting $2^d$ from numhold. If the result is non-negative, that means the $d^\mathrm{th}$ bit corresponding to the $2^d t(x)$ value is already 1, and we continue on to the next bit with the new value of numhold. On the other hand, if the result is negative, that means that the $d^\mathrm{th}$ bit is 0. In this case, we apply the $X$ gate to flip it to 1, along with reverting the numhold value to the original. We apply the same protocol to the $(d-1)^\mathrm{st}$ bit, $(d-2)^\mathrm{st}$ bit, all the way to the $0^\mathrm{th}$ bit.
