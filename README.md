@@ -82,4 +82,12 @@ for dindex in range(d):
 
 $\frac{1}{32}\ket{000000}\ket{0000} + \frac{1}{32}\ket{000000}\ket{0001} + \frac{1}{32}\ket{000000}\ket{0010} + \frac{1}{32}\ket{000000}\ket{0011} + \frac{1}{32}\ket{000000}\ket{0100} + \frac{1}{32}\ket{000000}\ket{0101} + ... + \frac{1}{32}e^{i 2\pi (63/64) 25}\ket{111111}\ket{1011} + \frac{1}{32}e^{i 2\pi (63/64) 17}\ket{111111}\ket{1100} + \frac{1}{32}e^{i 2\pi (63/64) 44}\ket{111111}\ket{1101} + \frac{1}{32}e^{i 2\pi (63/64) 36}\ket{111111}\ket{1110} + \frac{1}{32}e^{i 2\pi (63/64) 52}\ket{111111}\ket{1111}$
 
-The key here is that for each $\ket{x'}$, there is no longer a symmetric superposition of all $\ket{2^d t'}$, but rather a phase-weighted superposition, corresponding to the composite state $\sum_{t',x'} e^{i (2\pi/2^d) (2^d t(x')) (2^d t')} \ket{2^d t'} \ket{x'}$. Conceptually, the fact that consecutive integer states $\ket{2^d t'} \in (\ket{0},...,\ket{2^d - 1})$ are separated by a well-defined phase (invariant in the particular integer pair), while the amplitudes for the integer states are uniform, clearly demonstrates that this composite state is the QFT of $\sum_{x'} \ket{2^d t(x')} \ket{x'}$, where every $x'$ is entangled the corresponding phase $t(x')$, as desired. We thus apply the inverse QFT on the $d$-bit system to achieve this entangled state.
+The key here is that for each $\ket{x'}$, there is no longer a symmetric superposition of all $\ket{2^d t'}$, but rather a phase-weighted superposition, corresponding to the composite state $\sum_{t',x'} e^{i (2\pi/2^d) (2^d t(x')) (2^d t')} \ket{2^d t'} \ket{x'}$. Conceptually, the fact that consecutive integer states $\ket{2^d t'} \in (\ket{0},...,\ket{2^d - 1})$ are separated by a well-defined phase (invariant in the particular integer pair), while the amplitudes for the integer states are uniform, clearly demonstrates that this composite state is the QFT of $\sum_{x'} \ket{2^d t(x')} \ket{x'}$, where every $x'$ is entangled with the corresponding phase $t(x')$, as desired. We thus apply the inverse QFT on the $d$-bit system to achieve this entangled state.
+
+```python
+from qiskit.circuit.library import QFT
+iqft = QFT(num_qubits=d, inverse=True)
+qc.append(iqft,range(n,n+d))
+```
+
+<img width="79" height="563" alt="AfterIQFTCircuit" src="https://github.com/user-attachments/assets/6f15f600-f7e9-41fb-b94d-581b25dec80d" />
