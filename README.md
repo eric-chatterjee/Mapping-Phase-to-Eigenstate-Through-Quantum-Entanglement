@@ -67,3 +67,6 @@ qc.h(range(n+d))
 
 <img width="176" height="689" alt="AllHadamardCircuit" src="https://github.com/user-attachments/assets/01535f7f-4b7e-41bb-96a6-97b8b2706603" />
 
+$\frac{1}{32}\ket{000000}\ket{0000} + \frac{1}{32}\ket{000000}\ket{0001} + \frac{1}{32}\ket{000000}\ket{0010} + \frac{1}{32}\ket{000000}\ket{0011} + \frac{1}{32}\ket{000000}\ket{0100} + \frac{1}{32}\ket{000000}\ket{0101} + ... + \frac{1}{32}\ket{111111}\ket{1011} + \frac{1}{32}\ket{111111}\ket{1100} + \frac{1}{32}\ket{111111}\ket{1101} + \frac{1}{32}\ket{111111}\ket{1110} + \frac{1}{32}\ket{111111}\ket{1111}$
+
+Therefore, for each $\ket{x'}$, this state features a superposition of all numerically possible phases. However, the goal is to create an entangled state where each $\ket{x'}$ is only associated with the corresponding phase $\ket{t(x')}$. To achieve this, we apply the quantum phase estimation method. Specifically, we want to map $\ket{2^d t'}\ket{x'} \rightarrow e^{i 2\pi t(x') (2^d t')} \ket{2^d t'}\ket{x'}$, which is achieved by applying the operator $U^{2^d t'} = \prod_{l=0}^{d-1} C_{n+l} U^{2^l}$, where we apply the operator on the first $n$ bits while using the next $d$ bits individually as control qubits.
