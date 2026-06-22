@@ -54,3 +54,5 @@ We now consider the quantum circuit itself. We initialize $n+d$ bits (where we a
 ```python
 qc = QuantumCircuit(n+d)
 ```
+
+<img width="144" height="689" alt="InitializedCircuit" src="https://github.com/user-attachments/assets/ce9f3a5f-8d62-436e-95d3-c303f483c375" />
