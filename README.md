@@ -106,7 +106,7 @@ The $X$-gate series can be practically implemented for a given value of $2^d t(x
 tvalueexpanded = 25
 ```
 
-We define a recursive counter "numhold" which we initialize at the value of tvalueexpanded. We start by subtracting $2^{d-1}$ from numhold. If the result is non-negative, that means the ${d-1}^\mathrm{st}$ bit (where we are zero-indexing) corresponding to the $2^d t(x)$ value is already 1, and we continue with the new value of numhold. On the other hand, if the result is negative, that means that the ${d-1}^\mathrm{st}$ bit is 0. In this case, we apply the $X$ gate to flip it to 1, along with reverting the numhold value to the original. Using the updated value of numhold, we apply this protocol recursively to the $(d-2)^\mathrm{nd}$ bit, $(d-3)^\mathrm{rd}$ bit, all the way to the $0^\mathrm{th}$ bit.
+We define a recursive counter "numhold" which we initialize at the value of tvalueexpanded. We start by subtracting $2^{d-1}$ from numhold. If the result is non-negative, that means the $(d-1)^\mathrm{st}$ bit (where we are zero-indexing) corresponding to the $2^d t(x)$ value is already 1, and we continue with the new value of numhold. On the other hand, if the result is negative, that means that the $(d-1)^\mathrm{st}$ bit is 0. In this case, we apply the $X$ gate to flip it to 1, along with reverting the numhold value to the original. Using the updated value of numhold, we apply this protocol recursively to the $(d-2)^\mathrm{nd}$ bit, $(d-3)^\mathrm{rd}$ bit, all the way to the $0^\mathrm{th}$ bit.
 
 ```python
 numhold = tvalueexpanded
